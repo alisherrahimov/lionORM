@@ -5,5 +5,5 @@ Hello, this is simple ORM for Postgres and Mysql.
 ```sh
 yarn add lionorm
 or
-npm install
+npm install lionorm
 ```
