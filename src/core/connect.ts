@@ -20,25 +20,31 @@ class ConnectDatabase {
       }
 
       async executeQuery(query: string) {
-            switch (this.database) {
-                  case "pg":
-                        // Implement PostgreSQL query execution
-                        const client = new pg.Client(this.connection);
-                        await client.connect();
-                        const pgResult = await client.query(query);
-                        await client.end();
-                        return pgResult.fields ? pgResult.rows : pgResult;
+            try {
+                  switch (this.database) {
+                        case "pg":
+                              // Implement PostgreSQL query execution
+                              const client = new pg.Client(this.connection);
+                              await client.connect();
+                              const pgResult = await client.query(query);
+                              await client.end();
+                              return pgResult.fields ? pgResult.rows : pgResult;
 
-                  case "mysql":
-                        // Implement MySQL query execution
-                        const connection = createConnection(this.connection);
-                        connection.connect();
-                        const mySqlResult = connection.query(query);
-                        connection.end();
-                        return mySqlResult;
+                        case "mysql":
+                              // Implement MySQL query execution
+                              const connection = createConnection(
+                                    this.connection
+                              );
+                              connection.connect();
+                              const mySqlResult = connection.query(query);
+                              connection.end();
+                              return mySqlResult;
 
-                  default:
-                        throw new Error("Invalid database");
+                        default:
+                              throw new Error("Invalid database");
+                  }
+            } catch (error) {
+                  return new Error(`Error in query execution: ${error}`);
             }
       }
 }
